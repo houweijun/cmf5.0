@@ -1,0 +1,16 @@
+{
+    "name": "文章页",
+    "action": "portal/Article/index",
+    "description": "文章页模板文件",
+    "order": 10.0,
+    "more": {
+        "vars": {
+            "banner": {
+                "title": "banner图",
+                "type": "image",
+                "value": "",
+                "tip": ""
+            }
+        }
+    }
+}

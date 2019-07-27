@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$category.name} {$category.seo_title} {$site_info.site_name|default=''}</title>
+<meta name="keywords" content="{$category.seo_keywords},{$site_info.site_seo_keywords|default=''}"/>
+<meta name="description" content="{$category.seo_description},{$site_info.site_seo_description|default=''}">
+<include file="public@head"/>
+</head>
+<body>
+<include file="public@header"/>
+<div class="banner swiper-container">
+<notempty name="theme_vars['banner']">
+<div class="swiper-wrapper">
+  <div class="swiper-slide"><a><img src="{:cmf_get_image_url($theme_vars['banner'])}"/></a></div>
+</div>
+</notempty>
+<div class="main">
+  <div class="main-header">
+    <div class="container clearfix"> 
+      <php>$currentCid=$category->id;</php>
+      <div class="position"><a href='__ROOT__/'>首页</a> >
+        <portal:breadcrumb cid="currentCid" self="true">
+            <a href='{:url('portal/List/index',['id'=>$vo['id']])}'>{$vo.name}</a> >
+        </portal:breadcrumb>
+        <a>{$category.name}</a> > </div>
+    </div>
+  </div>
+  <div class="agency-brand-center container">
+    <div class="brand-center-header">
+      <h1>{$category.name}</h1>
+    </div>
+    <div class="brand-center-body clearfix">
+      <ul>
+        <php>
+                    $where=[
+                    'post.create_time'=>['egt',0]
+                    ];
+                    $page=[
+                        'list_rows'=>10,
+                        'next'=>'下一页',
+                        'prev'=>'上一页'
+                    ];
+        </php>
+        <portal:articles item="vo" where="$where" order="post.create_time DESC" page="$page"
+                                 relation="categories"
+                                 categoryIds="$category.id"
+                                 returnVarName="articles_data">
+        <li>
+          <div class="content"> <a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id'],'cid'=>$category['id']))}" class="pic">
+            <empty name="vo.more.thumbnail">
+                    <img src="__TMPL__/public/skin/images/default-thumbnail.png"
+                         class="img-responsive"
+                         alt="{$vo.post_title}">
+                    <else/>
+                    <img src="{:cmf_get_image_url($vo.more.thumbnail)}"
+                         class="img-responsive"
+                         alt="{$vo.post_title}">
+                </empty>
+        </a>
+            <div class="text">
+              <h4><a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id'],'cid'=>$category['id']))}">{$vo.post_title}</a></h4>
+              <a class="more" href="{:cmf_url('portal/Article/index',array('id'=>$vo['id'],'cid'=>$category['id']))}">查看详情</a> </div>
+          </div>
+        </li>
+        </portal:articles>
+      </ul>
+    </div>
+    <ul class="fenye"><page/></ul>
+  </div>
+</div>
+<include file="public@footer"/>
+</body>
+</html>

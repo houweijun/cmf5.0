@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<title>搜索 {$theme_vars.varName1|default=''} </title>
+		<meta name="keywords" content="" />
+		<meta name="description" content="">
+		<include file="public@head"/>
+		<hook name="before_head_end"/>
+	</head>
+<body class="">
+<include file="public@nav"/>
+<ul id="home-slider" class="list-unstyled">
+    <php>
+        $top_slide_id=empty($theme_vars['top_slide'])?1:$theme_vars['top_slide'];
+    </php>
+    <slides id="$top_slide_id">
+        <li>
+            <!-- 获取图片的函数   cmf_get_image_url -->
+            <a href=""><img src="{:cmf_get_image_url($vo.image)}" alt=""></a>
+        </li>
+    </slides>
+    <noslides id="$top_slide_id">
+        <li>
+            <div class="caption-wraper">
+                <div class="caption">此幻灯片只是演示,您没有设置任何幻灯片,请到后台模板设置！</div>
+            </div>
+            <a href=""><img src="__TMPL__/public/assets/images/demo/1.jpg" alt=""></a>
+        </li>
+        <li>
+            <div class="caption-wraper">
+                <div class="caption">此幻灯片只是演示,您没有设置任何幻灯片,请到后台模板设置！</div>
+            </div>
+            <a href=""><img src="__TMPL__/public/assets/images/demo/2.jpg" alt=""></a>
+        </li>
+        <li>
+            <div class="caption-wraper">
+                <div class="caption">此幻灯片只是演示,您没有设置任何幻灯片,请到后台模板设置！</div>
+            </div>
+            <a href=""><img src="__TMPL__/public/assets/images/demo/3.jpg" alt=""></a>
+        </li>
+    </noslides>
+</ul>
+<div class="container tc-main">
+	<div class="row">
+		<div class="col-md-9">
+			<div class="main-title">
+				<h3>'{$keyword}' 搜索结果 </h3>
+			</div>
+			<php>
+				$where=[
+				'post.create_time'=>['egt',0],
+				'post.post_title'=>['like',"%$keyword%"]
+				];
+			</php>
+
+			<portal:articles item="vo" where="$where" order="post.create_time DESC" page="10">
+
+				<div class="list-boxes">
+					<h2><a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}">{$vo.post_title}</a>
+					</h2>
+					<p>{$vo.post_excerpt}</p>
+					<div>
+						<div class="pull-left">
+							<div class="list-actions">
+								<a href="javascript:;"><i class="fa fa-eye"></i><span>{$vo.post_hits}</span></a>
+								<a href="{:cmf_url('portal/Article/doLike',array('id'=>$vo['id']))}"
+								   class="js-count-btn"><i class="fa fa-thumbs-up"></i><span class="count">{$vo.post_like}</span></a>
+
+									<i class="fa fa-star-o"></i>
+								</a>
+							</div>
+						</div>
+						<a class="btn btn-warning btn-sm pull-right"
+						   href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}">查看更多</a>
+					</div>
+				</div>
+			</portal:articles>
+			<div class="pagination">
+				<page/>
+			</div>
+
+		</div>
+		
+	</div>
+
+	<include file="public@footer"/>
+</div>
+
+<include file="public@scripts"/>
+<hook name="before_body_end"/>
+</body>
+</html>

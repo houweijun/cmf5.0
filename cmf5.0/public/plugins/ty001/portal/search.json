@@ -1,0 +1,16 @@
+{
+    "name": "搜索页",
+    "action": "portal/Search/index",
+    "description": "搜索页模板文件",
+    "order": 10.0,
+    "more": {
+        "vars": {
+            "banner": {
+                "title": "banner图",
+                "type": "image",
+                "value": "",
+                "tip": ""
+            }
+        }
+    }
+}

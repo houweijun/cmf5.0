@@ -1,0 +1,16 @@
+{
+    "name": "图片列表页",
+    "action": "portal/List/index",
+    "description": "图片列表模板文件",
+    "order": 10.0,
+    "more": {
+        "vars": {
+            "banner": {
+                "title": "banner图",
+                "type": "image",
+                "value": "",
+                "tip": ""
+            }
+        }
+    }
+}

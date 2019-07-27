@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>首页 {$site_info.site_name|default=''}</title>
+<meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+<meta name="description" content="{$site_info.site_seo_description|default=''}">
+<include file="public@head"/>
+</head>
+<body>
+<include file="public@header"/>
+<div class="banner swiper-container">
+    <div class="swiper-wrapper">
+        <php>$top_slide_id=empty($theme_vars['top_slide'])?1:$theme_vars['top_slide'];</php>
+        <slides id="$top_slide_id">
+        <div class="swiper-slide"><a><img src="{:cmf_get_image_url($vo.image)}" alt="{$vo.title|default=''}"></a></div>
+        </slides>
+    </div>
+  <div class="swiper-pagination"></div>
+  <div class="swiper-button-next">></div>
+  <div class="swiper-button-prev"><</div>
+</div>
+<widget name="features">
+<div class="about container-full">
+  <div class="section-header"> <h3><span class="black">关于我们</span></h3>
+    <p>ABOUT US</p>
+    <div class="line"><span></span></div>
+  </div>
+  <div class="about-body clearfix container">
+    <div class="about-us-l">
+      <h1>{$widget.vars.sub_name}</h1>
+      <span class="line"></span>
+      <p>{$widget.vars.sub_into}</p>
+      <a href="{$widget.vars.sub_url}">查看详情</a> </div>
+    <div class="about-us-r clearfix">
+      <ul>
+        <php>
+          $first_row = 3;
+          $features = array_slice($widget['vars']['features'],0,3);
+        </php>
+        <foreach name="features" item="vo">
+        <li>
+          <div class="content"> <a href="{$vo.url|default=''}">
+            <notempty name="article.more.themes">
+              <img src="__TMPL__/public/skin/images/default-thumbnail.png" alt="{$vo.title}">
+            <else>
+              <img src="{:cmf_get_image_url($vo.icon)}" alt="{$vo.title}">
+            </notempty>
+            </a>
+            <h4><a href="{$vo.url|default=''}">{$vo.title}</a></h4>
+            <p>{$vo.content}</p>
+          </div>
+        </li> 
+        </foreach>
+      </ul>
+    </div>
+  </div>
+</div>
+</widget>
+<widget name="last_case">
+<div class="agency-brand container-full">
+  <div class="section-header"> <h3><span class="black">产品展示</span></h3>
+    <p>product</p>
+    <div class="line"><span></span></div>
+  </div>
+  <div class="brand-type">
+    <ul>
+        <php>
+          $widget["vars"]["last_case_category_id"] = empty($widget["vars"]["last_case_category_id"])?1:$widget["vars"]["last_case_category_id"];
+          $cid=$widget["vars"]["last_case_category_id"];
+        </php>
+        <portal:subCategories categoryId="$widget.vars.last_case_category_id" item="vo">
+            <li><a href="{:cmf_url('portal/List/index',array('id'=>$vo.id))}">{$vo.name}</a></li>
+            <php>$cid=$cid.",".$vo->id;</php>
+        </portal:subCategories>
+    </ul>
+  </div>
+  <div class="brand-body on brand-body1">
+    <div class="box">
+      <div class="group">
+        <div class="item">
+          <ul>
+            <portal:articles limit="8" order="post.published_time DESC"
+              categoryIds="$cid">
+            <li> <a href="{:url('portal/article/index',array('id'=>$vo['id']))}"> <present name="vo.more.thumbnail">
+                <empty name="vo.more.thumbnail">
+                    <img src="__TMPL__/public/skin/images/default-thumbnail.png"
+                         class="img-responsive"
+                         alt="{$vo.post_title}">
+                    <else/>
+                    <img src="{:cmf_get_image_url($vo.more.thumbnail)}"
+                         class="img-responsive"
+                         alt="{$vo.post_title}">
+                </empty>
+                <else/>
+                <img src="__TMPL__/public/skin/images/default-thumbnail.png"
+                     class="img-responsive"
+                     alt="{$vo.post_title}">
+            </present>
+              <div class="mask">
+                <h4><span>{$vo.post_title}</span></h4>
+                <p></p>
+                <span>查看更多+</span> </div>
+              </a> </li>
+            </portal:articles>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</widget>
+<widget name="last_project">
+<div class="project">
+  <div class="section-header"> <h3><span class="green">成功案例</span></h3>
+    <p>Case</p>
+    <div class="line"><span></span></div>
+  </div>
+  <div class="project-body container clearfix"> <a class="btn prev" href="javascript:void(0);"><</a>
+    <div class="box">
+      <ul>
+        <php>
+          $widget["vars"]["last_project_category_id"] = empty($widget["vars"]["last_project_category_id"])?1:$widget["vars"]["last_project_category_id"];
+        </php>
+        <portal:articles limit="8" order="post.published_time DESC" categoryIds="$widget.vars.last_project_category_id">
+        <li> <a href="{:url('portal/article/index',array('id'=>$vo['id']))}" class="pic">
+          <div class="content">
+              <empty name="vo.more.thumbnail">
+                  <img src="__TMPL__/public/skin/images/default-thumbnail.png"
+                       class="img-responsive"
+                       alt="{$vo.post_title}">
+                  <else/>
+                  <img src="{:cmf_get_image_url($vo.more.thumbnail)}"
+                       class="img-responsive"
+                       alt="{$vo.post_title}">
+              </empty>
+            <div class="mask"> <span class="fdj"></span>
+              <h4>{$vo.post_title}</h4>
+              <span class="project-arrow"></span> </div>
+          </div>
+          </a>
+          <p><a href="{:url('portal/article/index',array('id'=>$vo['id']))}">{$vo.post_title}</a></p>
+        </li>
+      </portal:articles>
+      </ul>
+    </div>
+    <a class="btn next" href="javascript:void(0);">></a> </div>
+</div>
+</widget>
+<widget name="last_project">
+<div class="news container-full">
+  <div class="section-header"> <h3><span class="green">新闻资讯</span></h3>
+    <p>News</p>
+    <div class="line"><span></span></div>
+  </div>
+  <php>
+      $widget["vars"]["last_news_category_id"] = empty($widget["vars"]["last_news_category_id"])?1:$widget["vars"]["last_news_category_id"];
+      $w=[];
+  </php>
+  <div class="news-body container clearfix">
+    <portal:articles limit="1" order="post.published_time DESC" categoryIds="$widget.vars.last_news_category_id">
+    <div class="important-news">
+      <a href="{:url('portal/article/index',array('id'=>$vo['id']))}" class="pic"> 
+        <empty name="vo.more.thumbnail">
+            <img src="__TMPL__/public/skin/images/default-thumbnail.png"
+                 class="img-responsive"
+                 alt="{$vo.post_title}">
+            <else/>
+            <img src="{:cmf_get_image_url($vo.more.thumbnail)}"
+                 class="img-responsive"
+                 alt="{$vo.post_title}">
+        </empty>
+      <div class="date"> <span class="day">{:date('d',$vo.published_time)}</span> <span class="month">{:date('Y-m',$vo.published_time)}</span> </div>
+      </a>
+      <h4><a href="{:url('portal/article/index',array('id'=>$vo['id']))}">{$vo.post_title}</a></h4>
+      <p>　　{$vo.post_excerpt}...</p>
+    </div>
+    </portal:articles>
+    <div class="orther-news">
+      <ul>
+        <portal:articles limit="3" order="post.published_time DESC" categoryIds="$widget.vars.last_news_category_id">
+        <li>
+          <div class="date"> <span class="day">{:date('d',$vo.published_time)}</span> <span class="month">{:date('Y-m',$vo.published_time)}</span> </div>
+          <div class="content">
+            <h4><a href="{:url('portal/article/index',array('id'=>$vo['id']))}">{$vo.post_title}</a></h4>
+            <p>{$vo.post_excerpt}...</p>
+          </div>
+        </li>
+        </portal:articles>
+      </ul>
+    </div>
+  </div>
+  <div class="more container"> <a href="{:url('portal/List/index',array('id'=>$widget["vars"]["last_news_category_id"]))}">查看更多</a> </div>
+</div>
+</widget>
+<div class="partner container-full">
+  <div class="section-header"> <h3><span class="green">荣誉资质</span></h3>
+    <p>Honor</p>
+    <div class="line"><span></span></div>
+  </div>
+  <div class="partner-body clearfix container">
+    <ul>
+      <php>
+        $widget["vars"]["last_partner_category_id"] = empty($widget["vars"]["last_partner_category_id"])?1:$widget["vars"]["last_partner_category_id"];
+      </php>
+      <portal:articles limit="6" order="post.published_time DESC" categoryIds="$widget.vars.last_partner_category_id">
+      <li> <a> <empty name="vo.more.thumbnail">
+          <img src="__TMPL__/public/skin/images/default-thumbnail.png"
+               class="img-responsive"
+               alt="{$vo.post_title}">
+          <else/>
+          <img src="{:cmf_get_image_url($vo.more.thumbnail)}"
+               class="img-responsive"
+               alt="{$vo.post_title}">
+      </empty> <span class="mask"></span> </a> </li>
+      </portal:articles>
+    </ul>
+  </div>
+</div>
+<include file="public@footer"/>
+<script src="__TMPL__/public/skin/js/swiper.min.js"></script> 
+<script>
+    var swiper = new Swiper('.banner', {
+        pagination: '.swiper-pagination',
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+        slidesPerView: 1,
+        paginationClickable: true,
+        spaceBetween: 0,
+        loop: true,
+        autoplay: 5000
+    });
+    </script>
+</body>
+</html>

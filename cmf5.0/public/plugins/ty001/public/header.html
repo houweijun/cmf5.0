@@ -1,0 +1,31 @@
+<div class="header container-full">
+        <php>$logo=empty($theme_vars['logo'])?'':$theme_vars['logo'];</php>
+        <div class="container clearfix"> <a href="__ROOT__/" class="logo"><img src="{:cmf_get_image_url($logo)}" alt="{$theme_vars.company_name|default='豫唐'}"></a>
+          <div class="nav">
+            <ul>
+              <li class="nav-logo"><a href="__ROOT__/"><img src="{:cmf_get_image_url($logo)}" alt="{$theme_vars.company_name|default='豫唐'}"/></a></li>
+              <navigation nav-id="1" root="">
+                  <eq name="level" value="1">
+                  <navigationMenu root="li" class="">
+                      <a  href="{$menu.href|default=''}">{$menu.name|default=''}</a>
+                  </navigationMenu>
+                  <else>
+                      <navigationMenu root="dd" class="">
+                          <a href="{$menu.href|default=''}">{$menu.name|default=''}</a>
+                      </navigationMenu>
+                  </eq>
+                  <navigationFolder root="li" class="" dropdown="dl" dropdown-class="">
+                      <a href="javascript:void(0);">{$menu.name|default=''}</a>
+                  </navigationFolder>
+              </navigation>
+            </ul>
+          </div>
+          <div class="search">
+            <form name="formsearch" method="post" action="{:cmf_url('portal/Search/index')}">
+              <input type="text" name="keyword" placeholder="Search" value="{:input('param.keyword','')}" class="input" />
+              <input name="" type="submit" value="" class="submit" />
+            </form>
+          </div>
+          <button class="nav-toggle"> <span></span> <span></span> <span></span> </button>
+        </div>
+      </div>

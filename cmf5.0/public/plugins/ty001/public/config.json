@@ -1,0 +1,17 @@
+{
+    "name": "模板全局配置",
+    "action": "public/Config",
+    "description": "模板全局配置文件",
+    "is_public": "1",
+    "order": 0.0,
+    "more": {
+        "vars": {
+            "logo": {
+                "title": "LOGO",
+                "type": "image",
+                "value": "",
+                "tip": ""
+            }
+        }
+    }
+}

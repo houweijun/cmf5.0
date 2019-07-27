@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$article.post_title}</title>
+<meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+<meta name="description" content="{$site_info.site_seo_description|default=''}">
+<include file="public@head"/>
+</head>
+<body>
+<include file="public@header"/>
+<div class="banner swiper-container">
+<notempty name="theme_vars['banner']">
+<div class="swiper-wrapper">
+  <div class="swiper-slide"><a><img src="{:cmf_get_image_url($theme_vars['banner'])}"/></a></div>
+</div>
+</notempty>
+<div class="main">
+  <div class="main-header">
+    <div class="container clearfix"> 
+      <div class="position"><a href='__ROOT__/'>主页</a> > {$article.post_title} > </div>
+    </div>
+  </div>
+  <div class="artical container clearfix">
+    <div class="artical-header">
+      <h1>{$article.post_title}</h1>
+      <p><span>发表时间：{:date('Y-m-d H:i',$article.published_time)}</span><span>浏览量：<font id="hits">{$article.post_hits}</font></span></p>
+    </div>
+        <php>
+            $before_content_hook_param=[
+            'object_id'=>$article['id'],
+            'table_name'=>'portal_post',
+            'object_title'=>$article['post_title'],
+            'user_id'=>$article['user_id'],
+            'url'=>cmf_url_encode('portal/Article/index',array('id'=>$article['id'],'cid'=>$category['id'])),
+            'object'=>$article
+            ];
+        </php>
+        <hook name="before_content" param="before_content_hook_param"/>
+    <div class="artical-body"> 
+            {$article.post_content}
+    </div>
+    <php>
+            $after_content_hook_param=[
+            'object_id'=>$article['id'],
+            'table_name'=>'portal_post',
+            'object_title'=>$article['post_title'],
+            'user_id'=>$article['user_id'],
+            'url'=>cmf_url_encode('portal/Article/index',array('id'=>$article['id'],'cid'=>$category['id'])),
+            'object'=>$article
+            ];
+        </php>
+        <hook name="after_content" param="after_content_hook_param"/>
+        <div class="artical-footer clearfix">
+        <div class="choose-artical">
+          <if condition="!empty($prev_article)">
+            <a href="{:cmf_url('portal/Article/index',array('id'=>$prev_article['id'],'cid'=>$category['id']))}" class="btn btn-primary" title="{$prev_article['post_title']}">上一篇:{$prev_article['post_title']}</a>
+          </if>
+          <if condition="!empty($next_article)">
+            <a href="{:cmf_url('portal/Article/index',array('id'=>$next_article['id'],'cid'=>$category['id']))}" class="btn btn-success pull-right" title="{$next_article['post_title']}">下一篇:{$next_article['post_title']}</a>
+          </if>
+        </div>
+        </div>
+  </div>
+</div>
+<include file="public@footer"/>
+</body>
+</html>

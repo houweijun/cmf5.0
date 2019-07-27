@@ -1,0 +1,16 @@
+<div class="footer container-full">
+  <hook name="footer_start"/>
+        <div class="web-info">
+          <div class="container clearfix">
+            <div class="l">Copyright &copy; 2018 ThinkCMF5. 版权所有 备案号：<notempty name="site_info.site_icp"><a href="http://www.miitbeian.gov.cn/" target="_blank">{$site_info.site_icp}</a><else/>请在后台设置"网站信息"设置"ICP备"</notempty></div>
+            <div class="r"><a>友情链接</a>：
+            <links>
+                <a href="{$vo.url|default=''}" target="{$vo.target|default=''}">{$vo.name|default=''}</a>&nbsp;
+            </links>
+            </div>
+          </div>
+        </div>
+</div>
+<div class="go-top"> </div>
+<script src="__TMPL__/public/skin/js/jquery.min.js"></script> 
+<script src="__TMPL__/public/skin/js/web.js"></script> 
